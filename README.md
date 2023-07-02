@@ -48,7 +48,7 @@ Verifique no arquivo "package.json" se todos foram instalados com sucesso. Além
 Na pasta "Config", você pode criar arquivos .js para armazenar configurações e informações relacionadas à sua aplicação. Iremos utilizar um arquivo .js para armazenar a configurações de banco de dados. Segue o exemplo
 
 ````
-import { Sequelize } from "sequelize";
+import { Sequelize } from "sequelize"
 
 const db = new Sequelize('(DataBase)', '(User)', '(Password)', {
     host: 'localhost',
@@ -56,7 +56,7 @@ const db = new Sequelize('(DataBase)', '(User)', '(Password)', {
 })
 export default db
 ````
-Esse código estabelece a conexão com o banco de dados MySQL utilizando o Sequelize. A função Sequelize é chamada passando três argumentos: (DataBase), (User) e (Password). Esses argumentos representam as informações necessárias para se conectar ao banco de dados MySQL.
+- Neste exemplo, estou estabelecendo a conexão com o banco de dados MySQL utilizando o Sequelize. Na função Sequelize passo três argumentos: (DataBase), (User) e (Password). Esses argumentos representam as informações necessárias para a conexão com o banco de dados MySQL.
 
 ## Conexão com o servidor 🌐
 
@@ -91,12 +91,14 @@ server.listen(3000, function () {
 	console.log('Sevidor rodando na porta 3000')
 });
 ````
+- Neste código, estou configurando o servidor web utilizando o framework Express.js. Ele é responsável por definir as rotas da aplicação e, em conjunto com o Sequelize, sincroniza os modelos com o banco de dados. Além disso, o servidor é iniciado para ouvir as solicitações na porta 3000.
+
 ## Models 🎲
 Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. Segue o exemplo abaixo:
 
 ````
-import { Sequelize } from "sequelize";
-import db from "../Config/database.js";
+import { Sequelize } from "sequelize"
+import db from "../Config/database.js"
 
 const Tutor = db.define("tbl_tutor", {
   cpf: {
@@ -121,7 +123,7 @@ const Tutor = db.define("tbl_tutor", {
 
 export default Tutor
 ````
-- Note que estou importando o "db" database criado na pasta "Config" e o "Sequelize" para facilitar na criação e definição dos modelos do banco de dados.
+- Note que estou importando o "db" database criado na pasta "Config" e o "Sequelize" para facilitar na criação e definição dos modelos do banco de dados. Utilizo o método **"define"** do Sequelize para criar minha tabela, juntamente com os campos correspondentes.
 
 Caso você precise estabelecer relacionamentos entre tabelas usando chaves estrangeiras, uma abordagem comum é utilizar a função belongsTo para definir o relacionamento no seu código. 
 
@@ -141,7 +143,7 @@ Na pasta "Controller", crie um arquivo .js para implementar o controle das funci
 - Observe que, ao utilizar o Sequelize para a criação das tabelas, você pode aproveitar as funções fornecidas por essa biblioteca. 
 
 ````
-import Tutor from "../Models/tutor_models.js";
+import Tutor from "../Models/tutor_models.js"
 
 const getTutor = async (req, res) => {
     try {
@@ -201,8 +203,8 @@ Na pasta "Routes", você pode criar arquivos .js para definir as rotas da sua ap
 Segue esse exemplo:
 
 ````
-import express from "express";
-import { createUsuario, getCliente, getClienteByUser, verifyJWT } from "../Controller/usuario_controller.js";
+import express from "express"
+import { createUsuario, getCliente, getClienteByUser, verifyJWT } from "../Controller/usuario_controller.js"
 
 const routerUsuario = express.Router()
 
