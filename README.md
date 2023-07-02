@@ -31,7 +31,7 @@ Agora que você tem o Node.js instalado, vamos criar quatro pastas importantes p
 
 ## Inicio 👻
 
-Apos configurar seu projeto, precisamos instalar as bibliotecas/frameworks que serão utilizadas no desenvolvimento da nossa API. No terminal do Visual Studio Code, insira o comando abaixo:
+Após configurar seu projeto, precisamos instalar as bibliotecas/frameworks que serão utilizadas no desenvolvimento da nossa API. No terminal do Visual Studio Code, insira o comando abaixo:
 
 ````
 npm install sequelize mysql2 jsonwebtoken express dotenv-safe body-parser --save
