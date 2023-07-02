@@ -167,7 +167,7 @@ Lembre-se de que estamos utilizando tokens de autenticação baseados em web tok
 
 - Não se esqueça de criar uma variavel ambiente com um **SECRET** a seu critério. Estou utilizando ".env.example" como nome do arquivo.
 
-Como exemplo estarei enviando o token logo quando a pessoa cria um usuario.
+No exemplo estarei enviando o token logo quando a pessoa cria um usuário.
 ````
 import Cliente from "../Models/usuario_models.js"
 import jwt from "jsonwebtoken"
