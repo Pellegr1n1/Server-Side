@@ -244,6 +244,7 @@ const getClienteByUser = async (req, res) => {
   }
 }
 ````
+Neste exemplo, estou buscando um usuário específico através do parâmetro do endpoint. É feita uma verificação para determinar se o token gerado pertence ao usuário que está tentando acessar. Caso seja o caso, o acesso é liberado e os dados do usuário solicitado são retornados. Caso contrário, é retornado um erro 403 de acesso não autorizado.
 
 ## Routes ✈️
  
