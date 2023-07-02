@@ -143,7 +143,7 @@ Lembre-se de que estamos utilizando tokens de autenticação baseados em web tok
 - Observe que, ao utilizar o Sequelize para a criação das tabelas, você pode aproveitar as funções fornecidas por essa biblioteca, como: **"create"**, **"findAll"**, **"destroy"**, **"update"** dentre outras.
 - Não se esqueça de criar uma variavel ambiente com um **SECRET** a seu critério. Estou utilizando ".env.example" como nome do arquivo.
 
-No exemplo, estarei enviando o token logo após a criação de um usuário.
+No exemplo abaixo, estou enviando o token logo após a criação de um usuário.
 ````
 import Cliente from "../Models/usuario_models.js"
 import jwt from "jsonwebtoken"
