@@ -215,7 +215,7 @@ Note que estou utilizando as bibliotecas:
 - "jsonwebtoken" que é usada para trabalhar com JSON Web Tokens (JWT)
 - "dotenv-safe" que é utilizada para carregar variáveis de ambiente de forma segura a partir de um arquivo .env.
   
--- Neste código, estou criando um usuário e realizando as devidas validações. Se todas as validações forem aprovadas, gero um token de autenticação utilizando o método "sign" do JSON Web Token. Esse método requer um payload, que neste caso é o usuário, e um segredo (secret) para aumentar a segurança do token.
+Neste código, estou criando um usuário e realizando as devidas validações. Se todas as validações forem aprovadas, gero um token de autenticação utilizando o método "sign" do JSON Web Token. Esse método requer um payload, que neste caso é o usuário, e um segredo (secret) para aumentar a segurança do token.
 
 Após gerar o token, é necessário validar o mesmo para aumentar a segurança. Segue o exemplo abaixo:
 
@@ -259,6 +259,8 @@ Note que estou utilizando as bibliotecas:
 
 - "express" que é um framework utilizado para desenvolvimento de aplicações web em Node.js.
 - "usuario_controller"  que contém os métodos criados para controlar as funcionalidades relacionadas aos usuários.
+
+Neste exemplo, utilizo o "express" para a criação das minhas rotas. Elas são configuradas usando o objeto "routerUsuario" e exportadas para serem utilizadas no arquivo "server.js" criado anteriormente.
 
 ## Conclusão 🎯
 
