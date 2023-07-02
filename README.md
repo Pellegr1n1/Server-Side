@@ -35,7 +35,6 @@ Apos configurar seu projeto, precisamos instalar as bibliotecas/frameworks que s
 
 ````
 npm install sequelize mysql2 jsonwebtoken express dotenv-safe body-parser --save
-
 ````
 
 ## Config ⚙️
@@ -50,7 +49,6 @@ const db = new Sequelize('(DataBase)', '(User)', '(Password)', {
     dialect: 'mysql'
 })
 export default db
-
 ````
 
 ## Conexão com o servidor 🌐
@@ -85,7 +83,6 @@ db.sync({ alter: true }).then(() => {
 server.listen(3000, function () {
 	console.log('Sevidor rodando na porta 3000')
 });
-
 ````
 ## Models 🎲
 Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. Segue o exemplo abaixo:
@@ -152,7 +149,6 @@ const getTutor = async (req, res) => {
         })
     }
 }
-
 ```` 
 - A função **getTutor** é um controlador que lida com uma solicitação HTTP GET para buscar todos os tutores, note que estou utilizando o método **findAll** do Sequelize.
 
