@@ -97,31 +97,27 @@ server.listen(3000, function () {
 Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. Segue o exemplo abaixo:
 
 ````
-import { Sequelize } from "sequelize"
-import db from "../Config/database.js"
+import { Sequelize } from "sequelize";
+import db from "../Config/database.js";
 
-const Tutor = db.define("tbl_tutor", {
-  cpf: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    allowNull: false
-  },
-  nome: {
-    type: Sequelize.STRING(50),
-    allowNull: false
-  },
-  email: {
-    type: Sequelize.STRING(50),
-    allowNull: false
-  }
+const Cliente = db.define("tbl_usuario", {
+    usuario: {
+        type: Sequelize.STRING(50),
+        primaryKey: true,
+        allowNull: false
+    },
+    senha: {
+        type: Sequelize.STRING(20),
+        allowNull: false
+    }
 },
-  {
-    timestamps: false, //Evita o registro de data/horario nas tabelas do banco
-    freezeTableName: true, //Evita a pluralização dos nomes
-  }
+    {
+        timestamps: false, //Evita o registro de data/horario nas tabelas do banco
+        freezeTableName: true, //Evita a pluralização dos nomes
+    }
 )
 
-export default Tutor
+export default Cliente
 ````
 - Note que estou importando o "db" database criado na pasta "Config" e o "Sequelize" para facilitar na criação e definição dos modelos do banco de dados. Utilizo o método **"define"** do Sequelize para criar minha tabela, juntamente com os campos correspondentes.
 
@@ -138,33 +134,13 @@ Nesse exemplo indica que um "Pet" pertence a um "Tutor" e a chave estrangeira ut
 
 ## Controller 🎮
 
-Na pasta "Controller", crie um arquivo .js para implementar o controle das funcionalidades da aplicação. Este arquivo será responsável por receber as requisições dos clientes e coordenar as ações necessárias. Segue um exemplo abaixo:
-
-- Observe que, ao utilizar o Sequelize para a criação das tabelas, você pode aproveitar as funções fornecidas por essa biblioteca. 
-
-````
-import Tutor from "../Models/tutor_models.js"
-
-const getTutor = async (req, res) => {
-    try {
-        const get = await Tutor.findAll()
-        return res.status(200).json({
-            get
-        })
-    } catch (e) {
-        console.log("Erro : ", e)
-        return res.status(500).json({
-            msg: "Ocorreu um erro ao buscar os tutores"
-        })
-    }
-}
-```` 
-- A função **getTutor** é um controlador que lida com uma solicitação HTTP GET para buscar todos os tutores, note que estou utilizando o método **findAll** do Sequelize.
+Na pasta "Controller", crie um arquivo .js para implementar o controle das funcionalidades da aplicação. Este arquivo será responsável por receber as requisições dos clientes e coordenar as ações necessárias.
 
 ### Tokens 🔒
 
 Lembre-se de que estamos utilizando tokens de autenticação baseados em web tokens (JWT) para a nossa aplicação. Para implementar essa funcionalidade, você pode seguir o exemplo abaixo:
 
+- Observe que, ao utilizar o Sequelize para a criação das tabelas, você pode aproveitar as funções fornecidas por essa biblioteca, como: 'create', 'findAll', 'destroy', 'update' dentre outras.
 - Não se esqueça de criar uma variavel ambiente com um **SECRET** a seu critério. Estou utilizando ".env.example" como nome do arquivo.
 
 No exemplo, estarei enviando o token logo após a criação de um usuário.
@@ -221,19 +197,53 @@ Após gerar o token, é necessário validar o mesmo para aumentar a segurança. 
 
 ````
 function verifyJWT(req, res, next) {
-    const token = req.headers['x-access-token']
-    jwt.verify(token, process.env.SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({
-                msg: "Token inválido"
-            })
-        }
-        req.usuario = decoded.usuario
-        next()
-    })
+  const token = req.headers['x-access-token']
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        msg: "Token inválido"
+      })
+    }
+    req.userId = decoded.usuario
+    next()
+  })
 }
 ````
 Neste exemplo de código, estou definindo a função verifyJWT como um middleware para verificar a validade do meu token de acesso. Além disso, decodifico o token para obter informações do usuário autenticado, permitindo o prosseguimento da requisição apenas se o token for válido.
+
+Agora precisamos implementar um método que, ao acessar o endpoint passando o usuário como parâmetro, ele busca os dados desse usuário apenas se o token for válido para o mesmo. Segue o exemplo abaixo:
+
+````
+const getClienteByUser = async (req, res) => {
+  try {
+    const userId = req.userId
+
+    // Verifica se o token gerado é do usuario que esta tentando acessar
+    if (req.params.user !== userId) {
+      return res.status(403).json({
+        msg: "Acesso não autorizado"
+      })
+    }
+
+    const getUser = await Cliente.findByPk(req.params.user)
+    
+    if (!getUser) {
+      return res.status(404).json({
+        msg: 'O usuário não foi encontrado'
+      })
+    }
+
+    return res.status(200).json({
+      getUser
+    })
+  } catch (e) {
+    console.log("Erro: ", e)
+    return res.status(500).json({
+      msg: "Ocorreu um erro ao acessar os usuários"
+    })
+  }
+}
+````
 
 ## Routes ✈️
  
@@ -244,14 +254,15 @@ Na pasta "Routes", você pode criar arquivos .js para definir as rotas da sua ap
 Segue esse exemplo:
 
 ````
-import express from "express"
-import { createUsuario, getCliente, getClienteByUser, verifyJWT } from "../Controller/usuario_controller.js"
+import express from "express";
+import { createUsuario, deleteCliente, getClienteByUser, updateCliente, verifyJWT } from "../Controller/usuario_controller.js";
 
 const routerUsuario = express.Router()
 
-routerUsuario.get("/usuario", verifyJWT, getCliente)
-routerUsuario.get("/usuario/:user", verifyJWT, getClienteByUser)
+routerUsuario.get("/usuario/:user",verifyJWT, getClienteByUser)
 routerUsuario.post("/register", createUsuario)
+routerUsuario.put("/usuario/:user",updateCliente)
+routerUsuario.delete("/usuario/:user",deleteCliente)
 
 export default routerUsuario
 ````
