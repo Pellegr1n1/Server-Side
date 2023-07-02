@@ -165,8 +165,9 @@ const getTutor = async (req, res) => {
 
 Lembre-se de que estamos utilizando tokens de autenticação baseados em web tokens (JWT) para a nossa aplicação. Para implementar essa funcionalidade, você pode seguir o exemplo abaixo:
 
-- Não se esqueça de criar uma variavel ambiente com um **SECRET** a seu critério. Estou utilizando ".env.example" como nome do arquivo. 
+- Não se esqueça de criar uma variavel ambiente com um **SECRET** a seu critério. Estou utilizando ".env.example" como nome do arquivo.
 
+Como exemplo estarei enviando o token logo quando a pessoa cria um usuario.
 ````
 import Cliente from "../Models/usuario_models.js"
 import jwt from "jsonwebtoken"
@@ -174,7 +175,51 @@ import { config } from 'dotenv-safe'
 
 config({ path: '.env.example' })
 
+const createUsuario = async (req, res) => {
+    try {
+        const { usuario, senha } = req.body
+        if (!usuario || !senha) {
+            return res.status(422).json({
+                msg: "Todos os campos devem estar preenchidos!"
+            })
+        }
+        const valida = await Cliente.findByPk(usuario)
 
+        if (valida) {
+            return res.status(409).json({
+                msg: "Usuario existente!"
+            })
+        } else {
+            const user = await Cliente.create(req.body)
+            const token = jwt.sign({ usuario }, process.env.SECRET, {
+                expiresIn: 300
+            })
+            return res.status(200).json({
+                user,
+                auth: true,
+                token,
+                msg: "Usuario criado com sucesso!"
+            })
+        }
+    } catch (e) {
+        console.log("Error : ", e)
+        return res.status(500).json({
+            msg: "Ocorreu um erro ao criar o usuario"
+        })
+    }
+}
+````
+Note que estou utilizando as bibliotecas:
+
+- "Cliente" que é responsável pelo cadastro de usuários;
+- "jsonwebtoken" que é usada para trabalhar com JSON Web Tokens (JWT)
+- "dotenv-safe" que é utilizada para carregar variáveis de ambiente de forma segura a partir de um arquivo .env.
+  
+-- Neste código, estou criando um usuário e realizando as devidas validações. Se todas as validações forem aprovadas, gero um token de autenticação utilizando o método "sign" do JSON Web Token. Esse método requer um payload, que neste caso é o usuário, e um segredo (secret) para aumentar a segurança do token.
+
+Após gerar o token, é necessário validar o mesmo para aumentar a segurança. Segue o exemplo abaixo:
+
+````
 function verifyJWT(req, res, next) {
     const token = req.headers['x-access-token']
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
@@ -188,11 +233,7 @@ function verifyJWT(req, res, next) {
     })
 }
 ````
-Note que estou utilizando as bibliotecas:
-
-- "Cliente" que é responsável pelo cadastro de usuários;
-- "jsonwebtoken" que é usada para trabalhar com JSON Web Tokens (JWT)
-- "dotenv-safe" que é utilizada para carregar variáveis de ambiente de forma segura a partir de um arquivo .env.
+Neste exemplo de código, estou definindo a função verifyJWT como um middleware para verificar a validade do meu token de acesso. Além disso, decodifico o token para obter informações do usuário autenticado, permitindo o prosseguimento da requisição apenas se o token for válido.
 
 ## Routes ✈️
  
