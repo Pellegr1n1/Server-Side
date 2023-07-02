@@ -56,6 +56,7 @@ const db = new Sequelize('(DataBase)', '(User)', '(Password)', {
 })
 export default db
 ````
+Esse código estabelece a conexão com o banco de dados MySQL utilizando o Sequelize. A função Sequelize é chamada passando três argumentos: (DataBase), (User) e (Password). Esses argumentos representam as informações necessárias para se conectar ao banco de dados MySQL.
 
 ## Conexão com o servidor 🌐
 
