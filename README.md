@@ -36,6 +36,9 @@ Após configurar seu projeto, precisamos instalar as bibliotecas/frameworks que 
 ````
 npm install sequelize mysql2 jsonwebtoken express dotenv-safe body-parser --save
 ````
+Verifique no arquivo "package.json" se todos foram instalados com sucesso. Além disso, como iremos trabalhar com modulos adicione o no "type": "module". Segue a imagem de exemplo.
+![image](https://github.com/Pellegr1n1/Server-Side/assets/119978954/654e9bee-94d0-4776-a51e-0c5435296b38)
+
 
 ## Config ⚙️
 
