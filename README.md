@@ -17,6 +17,9 @@ Neste documento, apresentaremos uma aplicação server-side no padrão MVC (Mode
 - <img align="center" alt="Express.js" src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge"/>
 </b>
 
+- <img align="center" alt="Express.js" src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white"/>
+</b>
+
 
 ## Download 🚀
 
