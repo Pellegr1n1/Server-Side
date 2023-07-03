@@ -262,14 +262,13 @@ Na pasta "Routes", você pode criar arquivos .js para definir as rotas da sua ap
 
 ````
 import express from "express";
-import { createUsuario, deleteCliente, getClienteByUser, loginCliente, updateCliente, verifyJWT } from "../Controller/usuario_controller.js";
+import { createUsuario, deleteCliente, getClienteByUser, loginCliente, verifyJWT } from "../Controller/usuario_controller.js";
 
 const routerUsuario = express.Router()
 
 routerUsuario.get("/usuario/:user",verifyJWT, getClienteByUser)
 routerUsuario.post("/usuario/register", createUsuario)
 routerUsuario.post("/usuario/login", loginCliente)
-routerUsuario.put("/usuario/:user", verifyJWT, updateCliente)
 routerUsuario.delete("/usuario/:user", verifyJWT, deleteCliente)
 
 export default routerUsuario
