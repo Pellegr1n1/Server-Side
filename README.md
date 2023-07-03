@@ -205,6 +205,8 @@ function verifyJWT(req, res, next) {
 ````
 Neste exemplo de código, estou definindo a função verifyJWT como um middleware para verificar a validade do meu token de acesso. Além disso, decodifico o token para obter informações do usuário autenticado, permitindo o prosseguimento da requisição apenas se o token for válido.
 
+- Middleware: Um middleware é uma função que é executada no meio do processamento de uma requisição HTTP, permitindo realizar ações antes ou depois de uma determinada rota ou função ser executada.
+
 Agora precisamos implementar um método que, ao acessar o endpoint passando o usuário como parâmetro, ele busca os dados desse usuário apenas se o token for válido para o mesmo. 
 
 ````
@@ -238,7 +240,8 @@ const getClienteByUser = async (req, res) => {
   }
 }
 ````
-Neste exemplo, estou buscando um usuário específico através do parâmetro do endpoint. É feita uma verificação para determinar se o token gerado pertence ao usuário que está tentando acessar. Caso seja o caso, o acesso é liberado e os dados do usuário solicitado são retornados. Caso contrário, é retornado um erro 403 de acesso não autorizado.
+
+- Note que na minha função "verifyJWT", eu decodifico o usuário e passo-o para a variável "userId". Neste trecho de código, para verificar se o token pertence ao usuário, eu adiciono uma condição em que, se o parâmetro passado na URL for diferente de "userId", o acesso não é autorizado. Caso contrário, o restante do código é executado.
 
 ## Routes ✈️
  
