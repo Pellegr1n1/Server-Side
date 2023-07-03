@@ -36,7 +36,7 @@ Agora que você tem o Node.js instalado, vamos criar quatro pastas importantes p
 
 Após configurar seu projeto, precisamos instalar as bibliotecas/frameworks que serão utilizadas no desenvolvimento da nossa API. No terminal do Visual Studio Code, insira o comando abaixo:
 
-````
+````javascript
 npm install sequelize mysql2 jsonwebtoken express dotenv-safe body-parser --save
 ````
 Verifique no arquivo "package.json" se todos foram instalados com sucesso. Além disso, como iremos trabalhar com modulos adicione o "type": "module". Segue a imagem de exemplo.
@@ -50,7 +50,7 @@ Verifique no arquivo "package.json" se todos foram instalados com sucesso. Além
 
 Na pasta "Config", você pode criar arquivos .js para armazenar configurações e informações relacionadas à sua aplicação. Iremos utilizar um arquivo .js para armazenar a configurações de banco de dados. 
 
-````
+````javascript
 import { Sequelize } from "sequelize"
 
 const db = new Sequelize('(DataBase)', '(User)', '(Password)', {
@@ -67,7 +67,7 @@ export default db
 
 Agora você pode criar um arquivo chamado "server.js" para implementar a conexão com a porta e as rotas em sua aplicação. O arquivo "server.js" servirá como ponto de entrada para o seu servidor. 
 
-````
+````javascript
 import express from 'express'
 import db from './Config/database.js'
 
@@ -94,7 +94,7 @@ server.listen(3000, function () {
 Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. 
 
 - No exemplo a seguir, estou importando o módulo "db" da pasta "Config", que representa o banco de dados, e o módulo "Sequelize" para facilitar a criação e definição dos modelos do banco de dados. Utilizo o método **"define"** do Sequelize para criar a tabela, juntamente com seus respectivos campos.
-````
+````javascript
 import { Sequelize } from "sequelize";
 import db from "../Config/database.js";
 
@@ -120,7 +120,7 @@ export default Cliente
 Caso você precise estabelecer relacionamentos entre tabelas usando chaves estrangeiras, uma abordagem comum é utilizar a função belongsTo para definir o relacionamento no seu código. 
 
 - Lembre-se de criar mais um campo na sua tabela e adicionar a referencia para estabelecer o relacionamento.
-````
+````javascript
 (nome_do_campo): {
   type: Sequelize.INTEGER,
   allowNull: false,
@@ -133,7 +133,7 @@ Caso você precise estabelecer relacionamentos entre tabelas usando chaves estra
 
 Ao utilizar o **belongsTo**, você pode especificar o modelo relacionado e a chave estrangeira correspondente. Dessa forma, o Sequelize entenderá a associação entre os modelos e permitirá que você acesse os registros relacionados.
 
-````
+````javascript
 Pet.belongsTo(Tutor, { foreignKey: "cpf" })
 ````
 
@@ -152,7 +152,7 @@ Lembre-se de que estamos utilizando tokens de autenticação baseados em web tok
 - Não se esqueça de criar uma variavel ambiente com um **SECRET** a seu critério. Estou utilizando ".env.example" como nome do arquivo.
 
 No exemplo abaixo, estou enviando o token logo após a criação de um usuário.
-````
+````javascript
 import Cliente from "../Models/usuario_models.js"
 import jwt from "jsonwebtoken"
 import { config } from 'dotenv-safe'
@@ -203,7 +203,7 @@ Neste código, estou criando um usuário e realizando as devidas validações. S
 
 Após gerar o token, é necessário validar o mesmo para aumentar a segurança. 
 
-````
+````javascript
 function verifyJWT(req, res, next) {
   const token = req.headers['x-access-token']
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
@@ -223,7 +223,7 @@ Neste exemplo de código, estou definindo a função verifyJWT como um middlewar
 
 Agora precisamos implementar um método que, ao acessar o endpoint passando o usuário como parâmetro, ele busca os dados desse usuário apenas se o token for válido para o mesmo. 
 
-````
+````javascript
 const getClienteByUser = async (req, res) => {
   try {
     const userId = req.userId
@@ -263,7 +263,7 @@ Na pasta "Routes", você pode criar arquivos .js para definir as rotas da sua ap
 
 - Lembre-se de chamar as rotas no arquivo "server.js".
 
-````
+````javascript
 import express from "express";
 import { createUsuario, deleteCliente, getClienteByUser, loginCliente, verifyJWT } from "../Controller/usuario_controller.js";
 
@@ -289,7 +289,7 @@ Para implementar suas rotas no servidor, você precisa importá-las e utilizar o
 
 Segue o exemplo:
 
-````
+````javascript
 import express from 'express'
 import routerTutor from './Routes/tutor_routes.js'
 import routerPet from './Routes/pet_routes.js'
