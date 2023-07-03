@@ -90,6 +90,7 @@ server.listen(3000, function () {
 ## Models 🎲
 Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. 
 
+- No exemplo a seguir, estou importando o módulo "db" da pasta "Config", que representa o banco de dados, e o módulo "Sequelize" para facilitar a criação e definição dos modelos do banco de dados. Utilizo o método **"define"** do Sequelize para criar a tabela, juntamente com seus respectivos campos.
 ````
 import { Sequelize } from "sequelize";
 import db from "../Config/database.js";
@@ -113,11 +114,21 @@ const Cliente = db.define("tbl_usuario", {
 
 export default Cliente
 ````
-- Note que estou importando o "db" database criado na pasta "Config" e o "Sequelize" para facilitar na criação e definição dos modelos do banco de dados. Utilizo o método **"define"** do Sequelize para criar minha tabela, juntamente com os campos correspondentes.
-
 Caso você precise estabelecer relacionamentos entre tabelas usando chaves estrangeiras, uma abordagem comum é utilizar a função belongsTo para definir o relacionamento no seu código. 
 
-Ao utilizar o **belongsTo**, você pode especificar o modelo relacionado e a chave estrangeira correspondente. Dessa forma, o Sequelize entenderá a associação entre os modelos e permitirá que você acesse os registros relacionados de forma conveniente.
+- Lembre-se de criar mais um campo na sua tabela e adicionar a referencia para estabelecer o relacionamento.
+````
+(nome_do_campo): {
+  type: Sequelize.INTEGER,
+  allowNull: false,
+  references: {
+    model: (nome_do_modelo),
+    key: "(nome_da_chave)",
+  },
+},
+````
+
+Ao utilizar o **belongsTo**, você pode especificar o modelo relacionado e a chave estrangeira correspondente. Dessa forma, o Sequelize entenderá a associação entre os modelos e permitirá que você acesse os registros relacionados.
 
 ````
 Pet.belongsTo(Tutor, { foreignKey: "cpf" })
