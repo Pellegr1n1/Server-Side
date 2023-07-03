@@ -45,7 +45,7 @@ Verifique no arquivo "package.json" se todos foram instalados com sucesso. Além
 
 ## Config ⚙️
 
-Na pasta "Config", você pode criar arquivos .js para armazenar configurações e informações relacionadas à sua aplicação. Iremos utilizar um arquivo .js para armazenar a configurações de banco de dados. Segue o exemplo
+Na pasta "Config", você pode criar arquivos .js para armazenar configurações e informações relacionadas à sua aplicação. Iremos utilizar um arquivo .js para armazenar a configurações de banco de dados. 
 
 ````
 import { Sequelize } from "sequelize"
@@ -60,7 +60,7 @@ export default db
 
 ## Conexão com o servidor 🌐
 
-Agora você pode criar um arquivo chamado "server.js" para implementar a conexão com a porta e as rotas em sua aplicação. O arquivo "server.js" servirá como ponto de entrada para o seu servidor. Segue o exemplo abaixo:
+Agora você pode criar um arquivo chamado "server.js" para implementar a conexão com a porta e as rotas em sua aplicação. O arquivo "server.js" servirá como ponto de entrada para o seu servidor. 
 
 ````
 import express from 'express'
@@ -94,7 +94,7 @@ server.listen(3000, function () {
 - Neste código, estou configurando o servidor web utilizando o framework Express.js. Ele é responsável por definir as rotas da aplicação e, em conjunto com o Sequelize, sincroniza os modelos com o banco de dados. Além disso, o servidor é iniciado para ouvir as solicitações na porta 3000.
 
 ## Models 🎲
-Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. Segue o exemplo abaixo:
+Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. 
 
 ````
 import { Sequelize } from "sequelize";
@@ -193,7 +193,7 @@ Note que estou utilizando as bibliotecas:
   
 Neste código, estou criando um usuário e realizando as devidas validações. Se todas as validações forem aprovadas, gero um token de autenticação utilizando o método "sign" do JSON Web Token. Esse método requer um payload, que neste caso é o usuário, e um segredo (secret) para aumentar a segurança do token.
 
-Após gerar o token, é necessário validar o mesmo para aumentar a segurança. Segue o exemplo abaixo:
+Após gerar o token, é necessário validar o mesmo para aumentar a segurança. 
 
 ````
 function verifyJWT(req, res, next) {
@@ -211,7 +211,7 @@ function verifyJWT(req, res, next) {
 ````
 Neste exemplo de código, estou definindo a função verifyJWT como um middleware para verificar a validade do meu token de acesso. Além disso, decodifico o token para obter informações do usuário autenticado, permitindo o prosseguimento da requisição apenas se o token for válido.
 
-Agora precisamos implementar um método que, ao acessar o endpoint passando o usuário como parâmetro, ele busca os dados desse usuário apenas se o token for válido para o mesmo. Segue o exemplo abaixo:
+Agora precisamos implementar um método que, ao acessar o endpoint passando o usuário como parâmetro, ele busca os dados desse usuário apenas se o token for válido para o mesmo. 
 
 ````
 const getClienteByUser = async (req, res) => {
@@ -252,8 +252,6 @@ Na pasta "Routes", você pode criar arquivos .js para definir as rotas da sua ap
 
 - Lembre-se de chamar as rotas no arquivo "server.js".
 
-Segue esse exemplo:
-
 ````
 import express from "express";
 import { createUsuario, deleteCliente, getClienteByUser, updateCliente, verifyJWT } from "../Controller/usuario_controller.js";
@@ -276,7 +274,7 @@ Neste exemplo, utilizo o "express" para a criação das minhas rotas. Elas são 
 
 ## Conclusão 🎯
 
-Através desse projeto, tivemos a oportunidade de aprimorar nossos conhecimentos nas tecnologias utilizadas, como Node.js, Sequelize, JSON Web Tokens e Express.js. Essas ferramentas foram fundamentais para o desenvolvimento da nossa aplicação server-side no padrão MVC.
+Neste projeto, desenvolvemos uma aplicação server-side no padrão MVC, utilizando tecnologias como Node.js, Sequelize, Json Web Token e Express.js. Aprendemos a configurar o ambiente de desenvolvimento, criar modelos de banco de dados, implementar funcionalidades nos controladores e proteger os endpoints com tokens de autenticação. Essas habilidades adquiridas são essenciais para construir APIs seguras e escaláveis, demonstrando a importância de estruturar corretamente uma aplicação back-end.
 
 ### Desenvolvedores 👨‍💻
 
