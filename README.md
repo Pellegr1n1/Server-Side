@@ -58,6 +58,8 @@ export default db
 ````
 - Neste exemplo, estou estabelecendo a conexão com o banco de dados MySQL utilizando o Sequelize. Na função Sequelize passo três argumentos: (DataBase), (User) e (Password). Esses argumentos representam as informações necessárias para a conexão com o banco de dados MySQL.
 
+**Lembre-se de criar um banco de dados com o mesmo nome informado no código. Não é necessário criar as tabelas por meio de SQL, pois iremos utilizar um método do Sequelize para isso.**
+
 ## Conexão com o servidor 🌐
 
 Agora você pode criar um arquivo chamado "server.js" para implementar a conexão com a porta e as rotas em sua aplicação. O arquivo "server.js" servirá como ponto de entrada para o seu servidor. 
@@ -66,20 +68,10 @@ Agora você pode criar um arquivo chamado "server.js" para implementar a conexã
 import express from 'express'
 import db from './Config/database.js'
 
-// Importe suas rotas
-import routerTutor from './Routes/tutor_routes.js'
-import routerPet from './Routes/pet_routes.js'
-import routerUsuario from './Routes/usuario_routes.js'
-
 const server = express()
 
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
-
-//Rotas
-server.use(routerUsuario)
-server.use(routerPet)
-server.use(routerTutor)
 
 // Sincroniza os modelos com o banco de dados
 db.sync({ alter: true }).then(() => {
@@ -91,7 +83,9 @@ server.listen(3000, function () {
 	console.log('Sevidor rodando na porta 3000')
 });
 ````
-- Neste código, estou configurando o servidor web utilizando o framework Express.js. Ele é responsável por definir as rotas da aplicação e, em conjunto com o Sequelize, sincroniza os modelos com o banco de dados. Além disso, o servidor é iniciado para ouvir as solicitações na porta 3000.
+- Note que neste código, estou implementando a conexão com a porta 3000. Além disso, utilizo a função "sync" do Sequelize para criar ou alterar as tabelas de acordo com os modelos definido na pasta [Models](https://github.com/Pellegr1n1/Server-Side#models-).
+  
+**Obs.: Para o método "sync" funcionar, você precisa ter criado todos os modelos necessários para a sua aplicação.**
 
 ## Models 🎲
 Na pasta "Models", você pode criar arquivos .js para definir os modelos da sua aplicação. Esses arquivos serão responsáveis por descrever a estrutura das tabelas do banco de dados e definir as relações entre elas. 
@@ -254,14 +248,15 @@ Na pasta "Routes", você pode criar arquivos .js para definir as rotas da sua ap
 
 ````
 import express from "express";
-import { createUsuario, deleteCliente, getClienteByUser, updateCliente, verifyJWT } from "../Controller/usuario_controller.js";
+import { createUsuario, deleteCliente, getClienteByUser, loginCliente, updateCliente, verifyJWT } from "../Controller/usuario_controller.js";
 
 const routerUsuario = express.Router()
 
 routerUsuario.get("/usuario/:user",verifyJWT, getClienteByUser)
-routerUsuario.post("/register", createUsuario)
-routerUsuario.put("/usuario/:user",updateCliente)
-routerUsuario.delete("/usuario/:user",deleteCliente)
+routerUsuario.post("/usuario/register", createUsuario)
+routerUsuario.post("/usuario/login", loginCliente)
+routerUsuario.put("/usuario/:user", verifyJWT, updateCliente)
+routerUsuario.delete("/usuario/:user", verifyJWT, deleteCliente)
 
 export default routerUsuario
 ````
@@ -271,6 +266,38 @@ Note que estou utilizando as bibliotecas:
 - "usuario_controller"  que contém os métodos criados para controlar as funcionalidades relacionadas aos usuários.
 
 Neste exemplo, utilizo o "express" para a criação das minhas rotas. Elas são configuradas usando o objeto "routerUsuario" e exportadas para serem utilizadas no arquivo "server.js" criado anteriormente.
+
+### Implementando rotas no "server.js"
+
+Para implementar suas rotas no servidor, você precisa importá-las e utilizar o método "use" do Express para defini-las. 
+
+Segue o exemplo:
+
+````
+import express from 'express'
+import routerTutor from './Routes/tutor_routes.js'
+import routerPet from './Routes/pet_routes.js'
+import routerUsuario from './Routes/usuario_routes.js'
+import db from './Config/database.js'
+
+const server = express()
+server.use(express.json())
+server.use(express.urlencoded({ extended: true }))
+
+//Rotas
+server.use(routerUsuario)
+server.use(routerPet)
+server.use(routerTutor)
+
+db.sync({ alter: true }).then(() => {
+	console.log("Tabelas criadas no banco de dados")
+}).catch(error => {
+	console.error("Erro ao sincronizar os modelos com o banco de dados:", error)
+})
+server.listen(3000, function () {
+	console.log('Sevidor rodando na porta 3000')
+})
+````
 
 ## Conclusão 🎯
 
