@@ -73,28 +73,43 @@ const createTutor = async (req, res) => {
 
 const updateTutor = async (req, res) => {
     try {
-        const up = req.params.cpf
-        const update = await Tutor.update(req.body, {
-            where: {
-                cpf: up
-            }
-        })
-        if (update > 0) {
-            return res.status(200).json({
-                msg: `A alteração do CPF: ${req.params.cpf} foi concluída com sucesso`
-            })
-        } else {
+        const cpf = req.params.cpf;
+        const { nome, email } = req.body;
+
+        const tutor = await Tutor.findOne({ where: { cpf } });
+
+        if (!tutor) {
             return res.status(404).json({
-                msg: `CPF ${req.params.cpf} não encontrado para efetuar a atualização`
-            })
+                msg: `CPF ${cpf} não encontrado para efetuar a atualização`
+            });
         }
-    } catch (e) {
-        console.log("Erro : ", e)
+        if(!nome){
+            return res.status(422).json({
+                msg: "Nome é obrigatorio!"
+            });
+        }
+        if(!email){
+            return res.status(422).json({
+                msg: "Email é obrigatorio!"
+            });
+        }
+
+        await tutor.update({
+            nome: nome,
+            email: email
+        });
+
+        return res.status(200).json({
+            tutor,
+            msg: `A alteração do CPF: ${cpf} foi concluída com sucesso`
+        });
+    } catch (error) {
+        console.log("Erro:", error);
         return res.status(500).json({
             msg: `Ocorreu um erro ao atualizar o cadastro ${req.params.cpf}`
-        })
+        });
     }
-}
+};
 
 const deleteTutor = async (req, res) => {
     try {
