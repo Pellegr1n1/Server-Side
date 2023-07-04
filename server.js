@@ -3,6 +3,7 @@ import routerTutor from './Routes/tutor_routes.js'
 import routerPet from './Routes/pet_routes.js'
 import routerUsuario from './Routes/usuario_routes.js'
 import db from './Config/database.js'
+import routerAltura from './Routes/altura_routes.js'
 
 
 const server = express()
@@ -12,6 +13,7 @@ server.use(express.urlencoded({ extended: true }))
 server.use(routerUsuario)
 server.use(routerPet)
 server.use(routerTutor)
+server.use(routerAltura)
 db.sync({ alter: true }).then(() => {
 	console.log("Tabelas criadas no banco de dados")
 }).catch(error => {
